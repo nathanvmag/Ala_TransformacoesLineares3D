@@ -1,0 +1,425 @@
+
+<title >Transformações lineares em 3D</title>
+<!--Importa bibliotecas necessárias para toda matemática do programa-->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script  src="https://unpkg.com/mathjs@5.10.0/dist/math.min.js"></script>
+<script src ="js/decimal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+
+<!--Importa biblioteca com todas as funções desenvolvidas para funcionamento do projeto-->
+<script src="js/transformacoes.js"></script>
+
+<!--Importa bibliotecas Necessárias para o layout-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+ 
+<html>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=1500, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+<!-- Descreve o estilo para remover as setas dos numeric boxes -->
+
+<style>
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+.teste{
+}
+.teste2{
+  width: 70px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+ 
+   text-align: center;
+}
+
+</style>
+   <!-- Descreve o layout em html do projeto-->
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToPeSdpzM3dwObttD9jsMUIzGEYL_nKTJz2pTYScaIqneGiOhG" width="30" height="30" class="d-inline-block align-top" alt="">
+      Tranformações lineares em 3D
+    </a>
+  </nav>
+  <div class="container">
+      <div class="row justify-content-md-center">
+          
+          <div class="col-md-4">
+              <div class="card text-center" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">Matriz original:</h5>
+                    <div class="form-row col-md-12">
+                        <div class="col">
+                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Num. Vetores</label>
+                        </div>
+                        <div class="col">
+                          <input type="number" class="form-control" onchange="changeNumVects()" id="numvects" value=1 placeholder="">
+                        </div>
+                        
+                      </div>
+                      <div class="my-3 testimonial-group" style="overflow-x: scroll;" id="matrizorigi"
+                      >
+                      
+
+                      <div class="form-row my-2 teste" >
+                          <div class="teste2" >
+                              <label class="my-1 mr-2" for="inlineFormCustomSelectPref">X:</label>
+                          </div>
+                          <div class="teste2" >
+                              <input type="number" value=1  class="form-control" id="" placeholder="">
+
+                          </div>                 
+                      
+                                          
+                      
+                              
+                            
+                          
+                        </div>
+                        
+                        <div class="form-row my-2 teste">
+                            <div class="teste2">
+                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Y:</label>
+  
+  
+                            </div>
+                            <div class="teste2" >
+                                <input type="number" value=2  class="form-control" id="" placeholder="">
+  
+                            </div>     
+                           
+                             
+                            
+                          </div>
+                          <div class="form-row my-2 teste">
+                              <div class="teste2">
+                                  <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Z:</label>
+    
+    
+                              </div>
+                              <div class="teste2" >
+                                  <input type="number" value=3  class="form-control" id="" placeholder="">
+    
+                              </div>     
+                                   
+                                            
+                            </div>
+
+                      </div>
+                      <div class="form-row my-2 ">
+                          <div class="col-sm ">
+                            <button class="btn btn-primary" onclick="Inversa(0,matrizOriginal)" onclick="">Inversa</button>
+                            </div>
+                        
+                           
+                              <div class="col-sm ">
+                                <button class="btn btn-primary" onclick="Determinante(0,matrizOriginal)">Det</button>
+                                </div>
+                           
+
+                          <div class="col-sm ">
+                            <button class="btn btn-primary" onclick="plotthis(0,matrizOriginal)">Plotar</button>
+                            </div>
+                      </div>
+                      <div class="form-row my-2 justify-content-md-center">
+                       
+                         
+                            <div class="col-sm ">
+                              <button class="btn btn-primary" onclick="gsmi(0,matrizOriginal)">G.Schmidt </button>
+                              </div>
+                         
+
+                        
+                    </div>
+                    </div>
+                </div>
+          </div>
+          <div class="col-md-4">
+              <div class="col-md-4">
+                  <div class="card text-center" style="width: 18rem;">
+                      <div class="card-body">
+                        <h5 class="card-title">Matriz transformação:</h5>
+                        <div class="form-row  justify-content-center align-items-center ">
+                            <div class="col-md-10 ">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                    Caixa de Tranformações
+                                  </button>
+                              </div>
+                            
+                             
+                          </div>
+                        <div class="my-3" id="matriztransf">
+
+                            <div class="form-row my-2">
+                                <div class="col-3">
+                                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">X:</label>
+      
+      
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" id="" value=1 placeholder="">
+      
+                                </div>
+                                <div class="col-3">
+                                  <input type="number" class="form-control" id="" value=0 placeholder="">
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" id="" value=0 placeholder="">
+                                  </div>
+                                 
+                                
+                              </div>
+                              
+                              <div class="form-row my-2">
+                                  <div class="col-3">
+                                      <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Y:</label>
+        
+        
+                                  </div>
+                                  <div class="col-3">
+                                      <input type="number" class="form-control" id="" value=0 placeholder="">
+        
+                                  </div>
+                                  <div class="col-3">
+                                    <input type="number" class="form-control" id="" value=1 placeholder="">
+                                  </div>
+                                  <div class="col-3">
+                                      <input type="number" class="form-control" id="" value=0 placeholder="">
+                                    </div>
+                                   
+                                  
+                                </div>
+                                <div class="form-row my-2">
+                                    <div class="col-3">
+                                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Z:</label>
+          
+          
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="number" class="form-control" id="" value=0 placeholder="">
+          
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="number" class="form-control" id="" value=0 placeholder="">
+                                      </div>
+                                      <div class="col-3">
+                                          <input type="number" class="form-control" id="" value=1 placeholder="">
+                                        </div>
+                                       
+                                     
+                                    
+                                  </div>
+                                  
+
+                            </div>
+                            <div class="form-row my-2 ">
+                                <div class="col-sm ">
+                                  <button class="btn btn-primary" onclick="Inversa(1,matrizResultante)" onclick="">Inversa</button>
+                                  </div>
+                              
+                                  <div class="col-sm ">
+                                    <button class="btn btn-primary" onclick="Transposta(1,matrizResultante)">Transp</button>
+                                    </div>
+                                
+                                    <div class="col-sm ">
+                                      <button class="btn btn-primary" onclick="Determinante(1,matrizResultante)">Deter</button>
+                                      </div>
+                                  </div>
+                                  <div class="form-row my-2 ">
+                                      <div class="col-md-12  ">
+                                        <button class="btn btn-primary" onclick="autov()">Autovalores e Autovetores</button>
+                                        </div>                                      
+                                       
+                                    </div>
+      
+                            <div class="form-row my-2 ">
+                                <div class="col-md-4 ml-4 ">
+                                  <button class="btn btn-primary" onclick="plotthis(1,matrizTranformacao)">Plotar</button>
+                                  </div>
+                                  <div class="col-md-4 ">
+                                    <button class="btn btn-primary" onclick="dotransform()">Transformar</button>
+                                    </div>
+                                 
+                              </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+            <div class="col-md-4" id="mresult" hidden >
+                <div class="col-md-4">
+                    <div class="card text-center" style="width: 18rem;">
+                        <div class="card-body">
+                          <h5 class="card-title">Matriz Resultante:</h5>
+                          <div class="my-3"  style="overflow-x: scroll;" id="matrizresult">
+                              </div>
+                              <div class="form-row my-2 justify-content-md-center">
+                                  <div class="col-sm ">
+                                    <button class="btn btn-primary" onclick="editresult()">Editar</button>
+                                    </div>
+                                    <div class="col-sm ">
+                                        <button class="btn btn-primary" onclick="plotthis(2,matrizResultante)">Plotar</button>
+                                        </div>
+                                </div>
+                          </div>
+                      </div>
+                </div>
+              </div>
+          </div>
+      
+
+    </div>
+    
+    
+
+    <div class="container">
+        <div class="row">
+          <div class="col-md-4 " id="chart0">
+            
+          </div>
+          <div class="col-md-4  " id="chart1">
+          </div>
+          <div class="col-md-4 " id="chart2">
+          </div>
+        </div>
+      </div>
+
+
+<footer class="footer page-footer font-small blue">
+  <div class="footer-copyright text-center py-3">Desenvolvido por Nathan Magalhães :
+    <a href="https://nathanvmag.github.io"> WebSite</a>
+  </div>
+</footer>
+</html>
+<!--Termina layout em HTML do projeto, para encontrar as implementações da plataforma abra a pasta js/transformacoes.js -->
+
+
+
+<html>
+
+
+
+<!-- Descrição do layout para caixa de matrizes de transformação -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Caixa de Transformações 3D</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+              <div class="row ">
+                  <div class="col-md-3 ">   
+                  <form>
+                      <div class="form-row">
+                        <div class="form-group col-md-12">
+                          <label for="expandfactor">Rotacionar x graus: </label>
+                          <input type="number" class="form-control" value=0 id="rotationfactor" placeholder="">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-3  align-self-md-center">                       
+                    <button class="btn btn-primary " onclick="rot('x')" >Eixo x</button>
+                  </div>
+                  <div class="col-md-3 align-self-md-center">                       
+                      <button class="btn btn-primary " onclick="rot('y')" >Eixo y </button>
+                    </div>
+                    <div class="col-md-3 align-self-md-center ">                       
+                        <button class="btn btn-primary " onclick="rot('z')" >Eixo z </button>
+                      </div>
+                 </div>
+                 <div class="row ">
+                  <div class="col-md-3 ">   
+                  <form>
+                      <div class="form-row">
+                        <div class="form-group col-md-12">
+                          <label for="expandfactor">Rotacionar sobre o vetor: </label>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-3  ml-auto"> 
+                      <input type="number" class="form-control" id="vecrotx" value=1 id="rotationfactor" placeholder="">
+                      <input type="number" class="form-control" id="vecroty" value=1 id="rotationfactor" placeholder="">
+                      <input type="number" class="form-control" id="vecrotz" value=1 id="rotationfactor" placeholder="">
+                      
+                  </div>
+                  <div class="col-md-3 align-self-md-center">
+                      <button class="btn btn-primary " onclick="rotvec()" >Rotacionar </button>
+                       
+                    </div>
+                    <div class="col-md-3 align-self-md-center ">                       
+                      </div>
+                 </div>
+              
+              <div class="row my-2">
+               <div class="col-md-4 "> 
+                 <button class="btn btn-primary" onclick="reflex('x')" >Reflexão no eixo X</button>
+               </div>
+               <div class="col-md-4 "> 
+                  <button class="btn btn-primary" onclick="reflex('y')">Reflexão no eixo Y</button>
+                </div>
+                <div class="col-md-4 "> 
+                    <button class="btn btn-primary" onclick="reflex('z')">Reflexão no eixo Z</button>
+                  </div>
+              </div>
+              <div class="row my-4">
+                  <div class="col-md-4 "> 
+                    <button class="btn btn-primary" onclick="proj('x')" >Projeção no eixo X</button>
+                  </div>
+                  <div class="col-md-4 "> 
+                     <button class="btn btn-primary" onclick="proj('y')">Projeção no eixo Y</button>
+                   </div>
+                   <div class="col-md-4 "> 
+                       <button class="btn btn-primary" onclick="proj('z')">Projeção no eixo Z</button>
+                     </div>
+                 </div>
+                 <div class="row my-4">
+                    <div class="col-md-4 "> 
+
+                    <form>
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                            <label for="expandfactor">Expandir x vezes:</label>
+                            <input type="number" class="form-control" id="expandfactor" placeholder="">
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-md-4 align-self-md-center">                       
+                      <button class="btn btn-primary " onclick="expand()" >Expandir</button>
+                    </div>
+                    <div class="col-md-4 align-self-md-center">                       
+                        <button class="btn btn-primary " onclick="projret()" >Projetar reta x=y=z </button>
+                      </div>
+                   
+                   </div>
+                  
+            </div>
+      </div>
+      <div class="modal-footer "hidden>
+        <button type="button" class="btn btn-secondary" id="closemodal" hidden data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</html>
